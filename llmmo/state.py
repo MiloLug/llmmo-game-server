@@ -27,13 +27,13 @@ class ItemManager:
     def get(self, item_id: UUID) -> Item:
         if item_id not in self.repository.state.items:
             raise ValueError(f"Item {item_id} not found")
-        return self.repository.state.items.get(item_id)
+        return self.repository.state.items[item_id]
 
     def get_all(self) -> list[Item]:
         return list(self.repository.state.items.values())
 
     def create(self, name: str, description: str) -> Item:
-        item = Item(id=str(uuid4()), name=name, description=description)
+        item = Item(id=uuid4(), name=name, description=description)
         self.repository.state.items[item.id] = item
         self.repository.save()
         return item
@@ -62,7 +62,7 @@ class PlayerManager:
     def get(self, player_id: UUID) -> Player:
         if player_id not in self.repository.state.players:
             raise ValueError(f"Player {player_id} not found")
-        return self.repository.state.players.get(player_id)
+        return self.repository.state.players[player_id]
 
     def get_all(self) -> list[Player]:
         return list(self.repository.state.players.values())
@@ -70,7 +70,7 @@ class PlayerManager:
     def create(
         self, name: str, location_id: UUID, set_as_current: bool = True
     ) -> Player:
-        player = Player(id=str(uuid4()), name=name, location_id=location_id)
+        player = Player(id=uuid4(), name=name, location_id=location_id)
         self.repository.state.players[player.id] = player
         if set_as_current:
             self.repository.state.current_player_id = player.id
@@ -160,13 +160,13 @@ class LocationManager:
     def get(self, location_id: UUID) -> Location:
         if location_id not in self.repository.state.locations:
             raise ValueError(f"Location {location_id} not found")
-        return self.repository.state.locations.get(location_id)
+        return self.repository.state.locations[location_id]
 
     def get_all(self) -> list[Location]:
         return list(self.repository.state.locations.values())
 
     def create(self, name: str, description: str) -> Location:
-        location = Location(id=str(uuid4()), name=name, description=description)
+        location = Location(id=uuid4(), name=name, description=description)
         self.repository.state.locations[location.id] = location
         self.repository.save()
         return location
@@ -197,13 +197,13 @@ class AbstractManager:
     def get(self, abstract_id: UUID) -> Abstract:
         if abstract_id not in self.repository.state.abstracts:
             raise ValueError(f"Abstract {abstract_id} not found")
-        return self.repository.state.abstracts.get(abstract_id)
+        return self.repository.state.abstracts[abstract_id]
 
     def get_all(self) -> list[Abstract]:
         return list(self.repository.state.abstracts.values())
 
     def create(self, name: str, description: str) -> Abstract:
-        abstract = Abstract(id=str(uuid4()), name=name, description=description)
+        abstract = Abstract(id=uuid4(), name=name, description=description)
         self.repository.state.abstracts[abstract.id] = abstract
         self.repository.save()
         return abstract
@@ -232,14 +232,14 @@ class EntityManager:
     def get(self, entity_id: UUID) -> Entity:
         if entity_id not in self.repository.state.entities:
             raise ValueError(f"Entity {entity_id} not found")
-        return self.repository.state.entities.get(entity_id)
+        return self.repository.state.entities[entity_id]
 
     def get_all(self) -> list[Entity]:
         return list(self.repository.state.entities.values())
 
     def create(self, name: str, description: str, location_id: UUID) -> Entity:
         entity = Entity(
-            id=str(uuid4()), name=name, description=description, location_id=location_id
+            id=uuid4(), name=name, description=description, location_id=location_id
         )
         self.repository.state.entities[entity.id] = entity
         self.repository.save()
