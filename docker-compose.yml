@@ -1,0 +1,30 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+      args:
+        WORKSPACE: ${WORKSPACE:-local}
+    env_file:
+      - .env
+    ports:
+      - ${BACKEND__RUN__PORT}:${BACKEND__RUN__PORT}
+    networks:
+      - llmmo-local
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://0.0.0.0:${BACKEND__RUN__PORT}/api/v1/system/health || exit 1"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - ./llmmo:/src/llmmo
+      - ./.state:/src/.state
+    develop:
+      watch:
+        - path: ./llmmo
+          action: restart
+          target: /src/llmmo
+
+networks:
+  llmmo-local:
+    name: llmmo-local

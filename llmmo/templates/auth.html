@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 2.5rem;
+      border-radius: 1rem;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .3);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      font-size: .875rem;
+      margin-bottom: .25rem;
+      color: #94a3b8;
+    }
+
+    input {
+      width: 100%;
+      padding: .6rem .75rem;
+      border: 1px solid #334155;
+      border-radius: .5rem;
+      background: #0f172a;
+      color: #e2e8f0;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #6366f1;
+    }
+
+    button {
+      width: 100%;
+      padding: .7rem;
+      border: none;
+      border-radius: .5rem;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    button.btn-register {
+      background: #6366f1;
+    }
+
+    button.btn-login {
+      background: #10b981;
+    }
+
+    .msg {
+      margin-top: 1rem;
+      padding: .75rem;
+      border-radius: .5rem;
+      text-align: center;
+      font-size: .875rem;
+    }
+
+    .msg.ok {
+      background: #064e3b;
+      color: #6ee7b7;
+    }
+
+    .msg.err {
+      background: #450a0a;
+      color: #fca5a5;
+    }
+
+    .api-key-box {
+      margin-top: 1rem;
+      padding: .75rem;
+      border-radius: .5rem;
+      background: #0f172a;
+      border: 1px solid #334155;
+      word-break: break-all;
+      font-family: monospace;
+      font-size: .85rem;
+      color: #facc15;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .api-key-box .hint {
+      display: block;
+      font-family: system-ui, sans-serif;
+      font-size: .75rem;
+      color: #94a3b8;
+      margin-top: .5rem;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: .85rem;
+    }
+
+    .link a {
+      color: #818cf8;
+      text-decoration: none;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>{{ title }}</h1>
+    <form method="post">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" required>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required>
+      <button type="submit" class="btn-{{ btn_class }}">{{ action }}</button>
+    </form>
+    {% if message %}
+    <div class="msg {{ 'ok' if message_ok else 'err' }}">{{ message }}</div>
+    {% endif %}
+    {% if api_key %}
+    <div class="api-key-box" onclick="navigator.clipboard.writeText('{{ api_key }}')">
+      {{ api_key }}
+      <span class="hint">Click to copy. This key is shown only once.</span>
+    </div>
+    {% endif %}
+    <div class="link">{{ alt_link | safe }}</div>
+  </div>
+</body>
+
+</html>
