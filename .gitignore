@@ -11,3 +11,5 @@ wheels/
 .state
 state2.json
 .env
+.ruff_cache
+.mypy_cache
