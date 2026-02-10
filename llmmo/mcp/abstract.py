@@ -69,7 +69,11 @@ def add_context(
         UUID, "The ID of the object of given type to add to the context"
     ],
 ) -> Abstract:
-    """Add a context to an existing abstract in the game context. Returns the abstract with the new context."""
+    """
+    Add an object of given type and ID to the context of an existing abstract in the game context.
+    This allows to link objects for easier reasoning and memory.
+    Returns the abstract with the new context.
+    """
     return ctx.get_state("state").abstract.add_context(
         abstract_id, object_type, object_id
     )
