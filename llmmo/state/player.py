@@ -3,17 +3,16 @@ from __future__ import annotations
 from uuid import UUID, uuid4
 
 from typing import TYPE_CHECKING
-from pydantic import BaseModel, Field
-from llmmo.state.base_manager import BaseManager
+from pydantic import Field
+from llmmo.state.base_manager import BaseManager, BaseObject
 
 if TYPE_CHECKING:
     from llmmo.state.item import Item
 
 
-class Player(BaseModel):
+class Player(BaseObject):
     """A player in the game. It can be a human player, a computer player, etc."""
 
-    id: UUID
     name: str
     inventory: dict[UUID, int] = Field(default_factory=dict)
     location_id: UUID

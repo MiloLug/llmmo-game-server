@@ -2,14 +2,12 @@ from __future__ import annotations
 
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel
-from llmmo.state.base_manager import BaseManager
+from llmmo.state.base_manager import BaseManager, BaseObject
 
 
-class Entity(BaseModel):
+class Entity(BaseObject):
     """An entity in the game. It can be a chest, a tree, a monster, etc."""
 
-    id: UUID
     name: str
     description: str
     location_id: UUID | None = None

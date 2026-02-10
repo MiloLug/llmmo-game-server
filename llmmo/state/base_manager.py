@@ -8,7 +8,11 @@ if TYPE_CHECKING:
     from llmmo.state.repository import GameStateRepository
 
 
-class BaseManager[T: BaseModel](ABC):
+class BaseObject(BaseModel):
+    id: UUID
+
+
+class BaseManager[T: BaseObject](ABC):
     def __init__(self, repository: GameStateRepository):
         self.repository = repository
 

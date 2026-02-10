@@ -2,14 +2,12 @@ from __future__ import annotations
 
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel
-from llmmo.state.base_manager import BaseManager
+from llmmo.state.base_manager import BaseManager, BaseObject
 
 
-class Item(BaseModel):
+class Item(BaseObject):
     """An item in the game. It can be a weapon, a tool, a resource, etc."""
 
-    id: UUID
     name: str
     description: str
 
