@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel
-
-if TYPE_CHECKING:
-    from llmmo.state.manager import GameStateManager
+from llmmo.state.base_manager import BaseManager
 
 
 class Item(BaseModel):
@@ -17,14 +14,11 @@ class Item(BaseModel):
     description: str
 
 
-class ItemManager:
-    def __init__(self, repository: GameStateManager):
-        self.repository = repository
-
-    def get(self, item_id: UUID) -> Item:
-        if item_id not in self.repository.state.items:
-            raise ValueError(f"Item {item_id} not found")
-        return self.repository.state.items[item_id]
+class ItemManager(BaseManager[Item]):
+    def get(self, id: UUID) -> Item:
+        if id not in self.repository.state.items:
+            raise ValueError(f"Item {id} not found")
+        return self.repository.state.items[id]
 
     def get_all(self) -> list[Item]:
         return list(self.repository.state.items.values())
@@ -35,8 +29,8 @@ class ItemManager:
         self.repository.save()
         return item
 
-    def edit(self, item_id: UUID, description: str | None = None) -> Item:
-        item = self.get(item_id)
+    def update(self, id: UUID, description: str | None = None) -> Item:
+        item = self.get(id)
         if description is not None:
             item.description = description
         self.repository.save()

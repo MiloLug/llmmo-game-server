@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel
 
-if TYPE_CHECKING:
-    from llmmo.state.manager import GameStateManager
+from llmmo.state.base_manager import BaseManager
 
 
 class Abstract(BaseModel):
@@ -17,14 +15,11 @@ class Abstract(BaseModel):
     description: str
 
 
-class AbstractManager:
-    def __init__(self, repository: GameStateManager):
-        self.repository = repository
-
-    def get(self, abstract_id: UUID) -> Abstract:
-        if abstract_id not in self.repository.state.abstracts:
-            raise ValueError(f"Abstract {abstract_id} not found")
-        return self.repository.state.abstracts[abstract_id]
+class AbstractManager(BaseManager[Abstract]):
+    def get(self, id: UUID) -> Abstract:
+        if id not in self.repository.state.abstracts:
+            raise ValueError(f"Abstract {id} not found")
+        return self.repository.state.abstracts[id]
 
     def get_all(self) -> list[Abstract]:
         return list(self.repository.state.abstracts.values())
@@ -35,7 +30,7 @@ class AbstractManager:
         self.repository.save()
         return abstract
 
-    def edit(self, abstract_id: UUID, description: str | None = None) -> Abstract:
+    def update(self, abstract_id: UUID, description: str | None = None) -> Abstract:
         abstract = self.get(abstract_id)
         if description is not None:
             abstract.description = description

@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel
-
-if TYPE_CHECKING:
-    from llmmo.state.manager import GameStateManager
+from llmmo.state.base_manager import BaseManager
 
 
 class Entity(BaseModel):
@@ -18,14 +15,11 @@ class Entity(BaseModel):
     location_id: UUID | None = None
 
 
-class EntityManager:
-    def __init__(self, repository: GameStateManager):
-        self.repository = repository
-
-    def get(self, entity_id: UUID) -> Entity:
-        if entity_id not in self.repository.state.entities:
-            raise ValueError(f"Entity {entity_id} not found")
-        return self.repository.state.entities[entity_id]
+class EntityManager(BaseManager[Entity]):
+    def get(self, id: UUID) -> Entity:
+        if id not in self.repository.state.entities:
+            raise ValueError(f"Entity {id} not found")
+        return self.repository.state.entities[id]
 
     def get_all(self) -> list[Entity]:
         return list(self.repository.state.entities.values())
@@ -38,13 +32,13 @@ class EntityManager:
         self.repository.save()
         return entity
 
-    def edit(
+    def update(
         self,
-        entity_id: UUID,
+        id: UUID,
         description: str | None = None,
         location_id: UUID | None = None,
     ) -> Entity:
-        entity = self.get(entity_id)
+        entity = self.get(id)
         if description is not None:
             entity.description = description
         if location_id is not None:

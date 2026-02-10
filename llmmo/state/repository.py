@@ -28,7 +28,7 @@ class GameState(BaseModel):
     entities: dict[UUID, Entity] = Field(default_factory=dict)
 
 
-class GameStateManager:
+class GameStateRepository:
     def __init__(self, path: Path):
         self.state = GameState()
         self.path = path
@@ -100,7 +100,7 @@ def with_state[**T, R](
             username = ctx.get_state("username")
             if username is None:
                 raise ValueError("Username is not set in the context")
-            ctx.set_state("state", GameStateManager.for_user(username))
+            ctx.set_state("state", GameStateRepository.for_user(username))
         return func(ctx, *args, **kwargs)
 
     return wrapper
