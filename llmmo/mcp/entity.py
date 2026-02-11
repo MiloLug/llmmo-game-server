@@ -43,7 +43,7 @@ def edit(
     | None = None,
 ) -> Entity:
     """Edit an existing entity in the game context. Returns the edited entity."""
-    return ctx.get_state("state").entity.edit(entity_id, description, location_id)
+    return ctx.get_state("state").entity.update(entity_id, description, location_id)
 
 
 @mcp.tool

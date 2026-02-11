@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 
 class BaseObject(BaseModel):
     id: UUID
+    name: str
 
 
 class BaseManager[T: BaseObject](ABC):

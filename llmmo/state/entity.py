@@ -8,7 +8,6 @@ from llmmo.state.base_manager import BaseManager, BaseObject
 class Entity(BaseObject):
     """An entity in the game. It can be a chest, a tree, a monster, etc."""
 
-    name: str
     description: str
     location_id: UUID | None = None
 

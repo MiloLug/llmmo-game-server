@@ -1,3 +1,4 @@
+from enum import StrEnum
 from functools import cache, wraps
 from typing import Callable, Concatenate, Self
 from uuid import UUID
@@ -6,6 +7,7 @@ from pydantic import BaseModel, Field
 from pathlib import Path
 
 from llmmo.config.settings import config
+from llmmo.state.base_manager import BaseManager, BaseObject
 from llmmo.utils import json_dumps, json_loads
 from llmmo.state.item import Item, ItemManager
 from llmmo.state.player import Player, PlayerManager
@@ -15,6 +17,14 @@ from llmmo.state.entity import Entity, EntityManager
 
 
 # TODO: Later, use sql or mongodb to store the game state.
+
+
+class ObjectType(StrEnum):
+    ITEM = "ITEM"
+    LOCATION = "LOCATION"
+    ENTITY = "ENTITY"
+    ABSTRACT = "ABSTRACT"
+    PLAYER = "PLAYER"
 
 
 class GameState(BaseModel):
@@ -38,6 +48,17 @@ class GameStateRepository:
         self.item = ItemManager(self)
         self.abstract = AbstractManager(self)
         self.entity = EntityManager(self)
+
+        self._object_registry: dict[ObjectType, BaseManager] = {
+            ObjectType.LOCATION: self.location,
+            ObjectType.PLAYER: self.player,
+            ObjectType.ITEM: self.item,
+            ObjectType.ABSTRACT: self.abstract,
+            ObjectType.ENTITY: self.entity,
+        }
+
+    def get_object(self, object_type: ObjectType, id: UUID) -> BaseObject:
+        return self._object_registry[object_type].get(id)
 
     @classmethod
     @cache

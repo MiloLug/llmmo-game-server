@@ -13,7 +13,6 @@ if TYPE_CHECKING:
 class Player(BaseObject):
     """A player in the game. It can be a human player, a computer player, etc."""
 
-    name: str
     inventory: dict[UUID, int] = Field(default_factory=dict)
     location_id: UUID
 

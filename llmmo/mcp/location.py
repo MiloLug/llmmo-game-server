@@ -37,7 +37,7 @@ def edit(
     | None = None,
 ) -> Location:
     """Edit an existing location in the game context. Returns the edited location."""
-    return ctx.get_state("state").location.edit(location_id, description)
+    return ctx.get_state("state").location.update(location_id, description)
 
 
 @mcp.tool

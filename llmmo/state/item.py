@@ -8,7 +8,6 @@ from llmmo.state.base_manager import BaseManager, BaseObject
 class Item(BaseObject):
     """An item in the game. It can be a weapon, a tool, a resource, etc."""
 
-    name: str
     description: str
 
 

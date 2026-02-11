@@ -8,7 +8,6 @@ from llmmo.state.base_manager import BaseManager, BaseObject
 class Location(BaseObject):
     """A location in the game. It can be a room, a building, a field, etc."""
 
-    name: str
     description: str
 
 

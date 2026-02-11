@@ -36,7 +36,7 @@ def edit(
     | None = None,
 ) -> Item:
     """Edit an existing item in the game context. Returns the edited item."""
-    return ctx.get_state("state").item.edit(item_id, description)
+    return ctx.get_state("state").item.update(item_id, description)
 
 
 @mcp.tool
